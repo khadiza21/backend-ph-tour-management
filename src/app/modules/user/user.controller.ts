@@ -12,7 +12,7 @@ const createUser = async (req: Request, res: Response) => {
         res.status(httpStatus.CREATED).json({
             message: "user created successfully ", user
         })
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
         console.log(err);
         res.status(httpStatus.BAD_REQUEST).json({
