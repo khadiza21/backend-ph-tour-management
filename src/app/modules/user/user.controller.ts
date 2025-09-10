@@ -5,7 +5,7 @@ import httpStatus from "http-status-codes"
 const createUser = async (req: Request, res: Response) => {
     try {
         // which data will be send there have destructure
-        const {name, email} = req.body;
+        const { name, email } = req.body;
         const user = await User.create({
             name, email
         })
