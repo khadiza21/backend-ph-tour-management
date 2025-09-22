@@ -1,14 +1,30 @@
 import express, { Request, Response } from "express"
-
+import cors from "cors";
+import { router } from "./app/routes";
+import { globalErrorHandle } from "./app/middlewares/globalErrorHandlers";
+import notFound from "./app/middlewares/notFound";
 
 
 const app = express(); // create express app
+app.use(express.json()); // for getting json body
+app.use(cors()) // to prevent cors error in frontend developer
+
+app.use("/api/v1", router) // when hits the user route then will be redirect 
 
 // make a root route
-app.get("/", (req:Request, res:Response) => {
+app.get("/", (req: Request, res: Response) => {
     res.status(200).json({
         message: "Welcome to Tour Management System Backend "
     })
 })
 
-export default app;
+// setting up global error handler
+// need 4 var for handle global error handler 
+app.use(globalErrorHandle)
+
+
+// not found route should be below of globalErrorHandler
+app.use(notFound)
+
+
+export default app; 
