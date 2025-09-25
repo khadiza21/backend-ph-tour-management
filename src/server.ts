@@ -3,6 +3,7 @@ import { Server } from "http"; // import from node js
 import mongoose from "mongoose";
 import app from "./app";
 import { envVars } from "./app/config/env";
+import { seedSuperAdmin } from "./app/utils/seedSuperAdmin";
 
 let server: Server; //create server
 
@@ -16,7 +17,7 @@ const startServer = async () => {
         console.log("connected to DB!");
 
         // listen the app with port
-       server = app.listen(envVars.PORT, () => {
+        server = app.listen(envVars.PORT, () => {
             console.log(`Server is listening to port ${envVars.PORT}`);
         })
     } catch (error) {
@@ -25,7 +26,10 @@ const startServer = async () => {
 
 }
 // call the startServer function for server start
-startServer();
+(async () => {
+    await startServer();
+    await seedSuperAdmin();
+})()
 
 //  after closing server then process exit occur. 
 // process is node js server which run on terminal and server is close express server 
@@ -33,53 +37,53 @@ startServer();
 
 /* .................. error type 1 .................. */
 // * unhandled rejection error 
-process.on("unhandledRejection", (err)=> {
+process.on("unhandledRejection", (err) => {
     console.log("Unhandled Rejection detected ,, Server shutting down..", err);
 
-    if(server){
-        server.close(()=>{
+    if (server) {
+        server.close(() => {
             process.exit(1);
         })
     }
-     process.exit(1);
+    process.exit(1);
 })
 
 /* .................. error type 2 .................. */
 // * uncaught exception error
-process.on("uncaughtException", (err)=> {
+process.on("uncaughtException", (err) => {
     console.log("uncaught Exception detected ,, Server shutting down..", err);
 
-    if(server){
-        server.close(()=>{
+    if (server) {
+        server.close(() => {
             process.exit(1);
         })
     }
-     process.exit(1);
+    process.exit(1);
 })
 
 /* .................. error type 3 .................. */
-process.on("SIGTERM", ()=> {
+process.on("SIGTERM", () => {
     console.log("SIGTERM signal received... server shutting down");
 
-    if(server){
-        server.close(()=>{
+    if (server) {
+        server.close(() => {
             process.exit(1);
         })
     }
-     process.exit(1);
+    process.exit(1);
 })
 
 
 // running server off signal pass
-process.on("SIGINT", ()=> {
+process.on("SIGINT", () => {
     console.log("SIGINT signal received... server shutting down");
 
-    if(server){
-        server.close(()=>{
+    if (server) {
+        server.close(() => {
             process.exit(1);
         })
     }
-     process.exit(1);
+    process.exit(1);
 })
 
 

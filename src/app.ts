@@ -3,9 +3,12 @@ import cors from "cors";
 import { router } from "./app/routes";
 import { globalErrorHandle } from "./app/middlewares/globalErrorHandlers";
 import notFound from "./app/middlewares/notFound";
+import cookieParser from "cookie-parser";
 
 
 const app = express(); // create express app
+
+app.use(cookieParser())
 app.use(express.json()); // for getting json body
 app.use(cors()) // to prevent cors error in frontend developer
 
