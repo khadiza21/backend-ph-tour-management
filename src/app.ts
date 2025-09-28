@@ -7,9 +7,10 @@ import cookieParser from "cookie-parser";
 
 
 const app = express(); // create express app
-
-app.use(cookieParser())
 app.use(express.json()); // for getting json body
+// app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser())
+
 app.use(cors()) // to prevent cors error in frontend developer
 
 app.use("/api/v1", router) // when hits the user route then will be redirect 
